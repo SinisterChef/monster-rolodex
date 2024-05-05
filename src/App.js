@@ -7,40 +7,34 @@ constructor() {
   super();
 
   this.state = {
-    name: 'Kyle',
-    company: 'Magnetic Mobile'
+    monsters: [],
   }
+}
+
+componentDidMount() {
+  fetch('https://jsonplaceholder.typicode.com/users')
+    .then((response) => response.json())
+    .then((users) => this.setState(()=> {
+      return {monsters: users}
+    },
+    () => {
+      console.log(this.state);
+    }
+  ))
 }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hi {this.state.name}, I work at {this.state.company}.
-          </p>
-     <button onClick={() => {
-
-      this.setState(
-      //Update Function
-      (state, props) => {
-        return {
-          name: 'Poopface',
-          company: 'Toliet Town'
-        }
-      },
-      //Callback Function
-      //Once i'm finished run this callback
-      () => {
-        console.log(this.state);
-      }
-    )
-     }}>Change name</button>
-        </header>
-      </div>
-    );
-  }
+          {this.state.monsters.map((monster) => {
+            return (
+              <div key={monster.id}>
+                <h1>{monster.name}</h1>
+                </div>
+            )
+          })}
+        </div>
+  )}
 
 }
 
